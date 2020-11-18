@@ -23,13 +23,13 @@ db();
 app.get('/', function(req, res){
     res.send("GET handled, Please specify /./..")
 })
-app.get('/api/personalInfo', (req, res) => {
+// app.get('/api/personalInfo', (req, res) => {
     
-    mongoGrid..find().toArray(function(err, result) {
-        console.log(result);
-        res.send(result)
-    });
-});
+//     mongoGrid..find().toArray(function(err, result) {
+//         console.log(result);
+//         res.send(result)
+//     });
+// });
 /* 
 app.get('/api/information', function(req, res){
     Info.getInfo(function(err, info) {
