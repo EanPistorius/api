@@ -1,81 +1,55 @@
+"use strict";
 const express = require('express');
-const app = express();
-const bodyParser = require('body-parser');
-const GridFsStorage = require('multer-gridfs-storage');
-const Grid = require('gridfs-stream');
-const morgan = require('morgan');
-const URI = 'mongodb://mongoUser:mongo1234@52.56.212.2/information?retryWrites=true&w=majority';//mongo URI
-// const cors = require('cors');
-// const infoRoutes = require('./api/routes/info');
-const mongoose = require('mongoose');
-Info = require('./models/info');
-Cred = require('./models/cred');
-let mongoGrid;
-const db = async () =>{
-    await mongoose.connect(URI,{ 
-        useNewUrlParser: true, 
-        useUnifiedTopology: true,
-    });
-    console.log('db connection successful');
-};
-db();
+const cors = require('cors');
+const MongoClient = require('mongodb').MongoClient;
 
-app.get('/', function(req, res){
-    res.send("GET handled, Please specify /./..")
-})
-// app.get('/api/personalInfo', (req, res) => {
-    
-//     mongoGrid..find().toArray(function(err, result) {
-//         console.log(result);
-//         res.send(result)
-//     });
-// });
-/* 
-app.get('/api/information', function(req, res){
-    Info.getInfo(function(err, info) {
-        if(err){
-            throw err;
-        }
-        res.json(info);
-        // res.send("GET handled");
-    });
-});
+const PORT = process.env.PORT || 8080;
 
- */
-// app.use('/api/routes/info', infoRoutes);
+const app = express();app.use(cors());
+app.use(express.json());
+// app.use(fileUpload({
+//     createParentPath: true
+// }))
 
-// app.use(morgan('dev'));
-// app.use(bodyParser.urlencoded({extended: false}));
-// app.use(bodyParser.json());
-// app.use(express.json());
-// app.use(express.urlencoded({extended:false}))
-/* 
-app.use((req, res, next) =>{
-    res.header('Access-Control-Allow-origin', '*');
-    res.header(
-        'Access-Control-Allow-Headers',
-        "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-    );
-    if(req.method === 'OPTIONS'){
-        res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
-        return res.status(200).json({});
+var URI = "mongodb://mongoUser:mongo1234@52.56.212.2/information?retryWrites=true&w=majority";
+var database
+
+MongoClient.connect(URI,{useNewUrlParser: true, useUnifiedTopology: true}, function(err, db) {
+    if(err) throw err;
+    else{
+        console.log("db connection successful");
     }
-    next(error);
+
+    database = db.db("information");
 });
 
- */
-// app.use((req, res, next) =>{
-//     const error = new Error('Not Found');
-//     error.status(404);
-//     next(error);
-// });
-// app.use((error, req, res, next)=>{
-//     res.status(error.status || 500);
-//     res.json({
-//         error:{
-//             message: error.message
-//         }
-//     });
-// });
+//Retrieve all users
+app.get('/info', (req, res) => {
+    database.collection("personalInfo").find({}).toArray(function(err, result){
+        if(err) throw err;
+        res.send(result);
+    });
+})
+
+app.post('/newInfo', (req, res) =>{
+
+    /*const newUser = {
+        firstName:req.body.firstName,
+        lastName:req.body.lastName,
+        email:req.body.email,
+        phoneNumber:req.body.phoneNumber,
+        address:req.body.address
+    }*/
+
+    database.collection("personalInfo").insert(req.body.newInfo, function(err){
+        if(err){
+            console.log(err);
+        }else{
+            res.send("User added")
+        }
+    })
+
+})
+
 
 module.exports = app;
