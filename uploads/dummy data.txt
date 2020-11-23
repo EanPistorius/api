@@ -1,0 +1,9 @@
+{
+	"_id": "991221",
+    "firstName": "Pieter",
+    "lastName": "Pistorius",
+    "email": "ean.pistorius@gmail.com",
+    "phoneNumber": "0614633799",
+    "address": ["23 Gerrit Maritz", "Dassierand", "Potchefstroom"]
+
+}

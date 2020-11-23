@@ -1,0 +1,5 @@
+firstName: Ean,
+lastName: Pistorius,
+email: ean.pistorius@gmail.com,
+phone: 0614633799,
+address: 23 Gerrit Maritz street Dassierand Potchefstroom

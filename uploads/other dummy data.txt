@@ -1,0 +1,16 @@
+{
+    firstName: "GC",
+    lastName: "Wehmeyer",
+    email: "gc@gmail.com",
+    phoneNumber: 0824175670,
+    address: ["40 Goud street", "Die Bult", "Potchefstroom"]
+
+}
+{
+    firstName: "Phillip",
+    lastName: "Degenaar",
+    email: "pdegenaar@gmail.com",
+    phoneNumber: 0824175670,
+    address: ["66 Malan street", "Daisy Park", "Potchefstroom"]
+
+}
